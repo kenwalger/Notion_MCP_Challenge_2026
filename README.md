@@ -39,9 +39,9 @@ src/
 
 3. **Create Notion databases**
 
-   **General catalog** (`NOTION_BOOKS_DATABASE_ID`) – for search_books:
+   **General catalog** (`NOTION_BOOKS_DATABASE_ID`) – for search_books and update_book_status:
 
-   - Title, Author, Publication Year, Publisher, ISBN, Condition, Edition, Language, Notes, Estimated Value
+   - Title, Author, Publication Year, Publisher, ISBN, Condition, Edition, Language, Notes, Estimated Value, **Status** (status type for flagging items)
 
    **Master Bibliography** (`NOTION_MASTER_BIBLIOGRAPHY_DATABASE_ID`) – for audit_artifact_consistency:
 
@@ -99,9 +99,11 @@ Set `PORT` in `.env` to use a different port (default: 3000).
 
 - **generate_exhibit_label** – Generate a Markdown Exhibit Placard with Curator's Note and Caveat Emptor (if Medium/High discrepancies).
 
+- **update_book_status** – Update the Status property of a Notion page. When audit reveals High or Medium severity discrepancies, set status to "Flagged for Review".
+
 ### Forensic Workflow
 
-For authenticity questions, the AI follows: 1) find_book_in_master_bibliography → 2) audit_artifact_consistency → 3) get_market_signals → 4) offer generate_exhibit_label.
+For authenticity questions, the AI follows: 1) find_book_in_master_bibliography → 2) audit_artifact_consistency → 3) get_market_signals → 4) offer generate_exhibit_label → 5) if High or Medium discrepancy, update_book_status to "Flagged for Review".
 
 ## License
 

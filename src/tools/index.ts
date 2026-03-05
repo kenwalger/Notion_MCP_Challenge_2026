@@ -20,3 +20,7 @@ export {
   type FindBookInput,
   type FindBookResult,
 } from "./find-book-in-master-bibliography.js";
+export {
+  executeUpdateBookStatus,
+  type UpdateBookStatusInput,
+} from "./update-book-status.js";

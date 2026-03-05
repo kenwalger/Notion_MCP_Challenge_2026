@@ -330,3 +330,26 @@ export async function getMarketSignals(
     sales,
   };
 }
+
+// -----------------------------------------------------------------------------
+// STATUS UPDATE – Update page Status property
+// -----------------------------------------------------------------------------
+
+/**
+ * Update the Status property of a Notion page.
+ * Expects a "Status" property of type "status" in the page's parent database.
+ */
+export async function updateBookStatus(
+  pageId: string,
+  status: string
+): Promise<{ success: boolean; page_id: string }> {
+  await notionClient.pages.update({
+    page_id: pageId,
+    properties: {
+      Status: {
+        status: { name: status },
+      },
+    },
+  });
+  return { success: true, page_id: pageId };
+}
