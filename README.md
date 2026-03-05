@@ -1,110 +1,52 @@
-# Rare Books Intelligence MCP
+# 🔍 Rare Book Intelligence MCP Server
 
-An MCP (Model Context Protocol) server for managing and searching a rare books database in Notion. Built with TypeScript, the Notion SDK, and Zod for validation.
+**A Forensic Audit & Valuation Engine for High-Value Bibliographic Assets**
 
-## Stack
+Built for the **2026 Notion MCP Hackathon**, this server transforms a standard Notion workspace into a professional rare book "Forensic Lab." It bridges structured archival data with LLM reasoning to identify forgeries, state-variants, and $10,000+ market discrepancies.
 
-- **TypeScript** – Type-safe development
-- **@modelcontextprotocol/sdk** – MCP server with Streamable HTTP transport
-- **@notionhq/client** – Notion API integration
-- **Zod** – Schema validation for book metadata
+---
 
-## Project Structure
+## 🏛️ The Problem
+High-value rare book trade relies on "Points of Issue"—tiny typographic or physical variations (like a single letter typo in a 19th-century poem) that determine if a book is worth $50,000 or $500. Non-experts often miss these "Ground Truth" markers, leading to massive financial loss and authenticity risks.
 
-```
-src/
-├── index.ts          # Entry point & MCP server setup (Streamable HTTP on port 3000)
-├── tools/            # Individual tool definitions
-│   ├── index.ts
-│   └── search-books.ts
-└── lib/
-    ├── notion.ts     # Notion API client wrappers
-    └── schemas.ts    # Zod schemas for book metadata
-```
+## 🚀 The Solution
+This Model Context Protocol (MCP) server enables AI Agents (like Claude Desktop) to:
+1. **Sync with Ground Truth:** Query a private "Master Bibliography" for definitive state-markers.
+2. **Perform Forensic Audits:** Compare physical observations against archival standards.
+3. **Capture Market Signals:** Pull recent "Hammer Prices" to contextualize risk.
+4. **Automate Governance:** Automatically update item statuses and maintain a permanent **Audit Log** in Notion for insurance and provenance.
 
-## Setup
 
-1. **Install dependencies**
 
+---
+
+## 🛠️ Features & Tools
+
+| Tool | Function | Enterprise Impact |
+| :--- | :--- | :--- |
+| `find_book_in_master_bibliography` | Cross-references archival standards. | Eliminates human memory errors. |
+| `audit_artifact_consistency` | Identifies "Point of Issue" mismatches. | Prevents high-value forgeries. |
+| `update_book_status` | Direct write-back to Notion Inventory. | Real-time inventory governance. |
+| `create_audit_log` | Records timestamped audit results. | Chain of Custody & Provenance. |
+
+---
+
+## 📦 Installation & Setup
+
+1. **Clone & Install:**
    ```bash
+   git clone [https://github.com/kenwalger/Notion_MCP_Challenge_2026](https://github.com/kenwalger/Notion_MCP_Challenge_2026)
    npm install
+   npm run build
    ```
 
-2. **Configure environment variables**
+2. **Notion Setup:** Duplicate the [Rare Book Template] (link your template here) and configure `.env`:
+   - `NOTION_API_KEY` – Integration token
+   - `NOTION_BOOKS_DATABASE_ID`, `NOTION_MASTER_BIBLIOGRAPHY_DATABASE_ID`, `NOTION_MARKET_RESULTS_DATABASE_ID`, `NOTION_AUDIT_LOG_DATABASE_ID`
 
-   Create a `.env` file or set:
+3. **Claude Desktop Integration:** Add the absolute path to `dist/index.js` in your `claude_desktop_config.json`.
 
-   - `NOTION_API_KEY` or `NOTION_TOKEN` – Your Notion integration token
-   - `NOTION_BOOKS_DATABASE_ID` – The ID of your Notion database for rare books
+---
 
-3. **Create Notion databases**
-
-   **General catalog** (`NOTION_BOOKS_DATABASE_ID`) – for search_books and update_book_status:
-
-   - Title, Author, Publication Year, Publisher, ISBN, Condition, Edition, Language, Notes, Estimated Value, **Status** (status type for flagging items)
-
-   **Master Bibliography** (`NOTION_MASTER_BIBLIOGRAPHY_DATABASE_ID`) – for audit_artifact_consistency:
-
-   - **Title** (title)
-   - **Author** (rich text)
-   - **Publisher** (rich text)
-   - **Expected First Edition Year** (number)
-   - **Binding Type** (select: Leather, Cloth, Paper Wrap, Vellum)
-   - **First Edition Indicators** (rich text, multi-line) – high-level markers, e.g. "1925 on title page"
-   - **Points of Issue** (rich text, multi-line) – forensic states, e.g. "lowercase j on page 10"
-   - **Paper Watermark** (rich text, optional)
-
-   **Market Results** (`NOTION_MARKET_RESULTS_DATABASE_ID`) – for get_market_signals:
-
-   - **Title** (title)
-   - **Author** (rich text)
-   - **Hammer Price** (number)
-   - **Sale Date** (date)
-
-## Usage
-
-**Build**
-
-```bash
-npm run build
-```
-
-**Run (Streamable HTTP – for Notion Custom Agent via ngrok)**
-
-```bash
-npm start
-```
-
-The server listens on `http://0.0.0.0:3000/mcp`. Expose it via ngrok:
-
-```bash
-ngrok http 3000
-```
-
-Use the ngrok URL + `/mcp` (e.g. `https://abc123.ngrok-free.app/mcp`) when adding the Custom MCP server in Notion Agent Settings → Tools & Access → Add connection → Custom MCP server.
-
-Set `PORT` in `.env` to use a different port (default: 3000).
-
-**Note:** The server uses Streamable HTTP only (no stdio). Use ngrok for remote clients like Notion Custom Agents.
-
-## Tools
-
-- **search_books** – Search the general rare books catalog with filters (author, year, condition).
-
-- **find_book_in_master_bibliography** – Look up a book in the Master Bibliography. If not found, suggests adding it to Notion first.
-
-- **audit_artifact_consistency** – Forensic audit: compare observed physical artifact against Ground Truth. Severity: High (first_edition_indicators), Medium (points_of_issue), Low (other).
-
-- **get_market_signals** – Query Market Results for the last 3 sales; returns average Hammer Price.
-
-- **generate_exhibit_label** – Generate a Markdown Exhibit Placard with Curator's Note and Caveat Emptor (if Medium/High discrepancies).
-
-- **update_book_status** – Update the Status property of a Notion page. When audit reveals High or Medium severity discrepancies, set status to "Flagged for Review".
-
-### Forensic Workflow
-
-For authenticity questions, the AI follows: 1) find_book_in_master_bibliography → 2) audit_artifact_consistency → 3) get_market_signals → 4) offer generate_exhibit_label → 5) if High or Medium discrepancy, update_book_status to "Flagged for Review".
-
-## License
-
-MIT
+⚖️ License
+Distributed under the MIT License. See [LICENSE](LICENSE) for more information.

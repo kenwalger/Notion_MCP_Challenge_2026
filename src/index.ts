@@ -9,6 +9,7 @@ import {
     executeGetMarketSignals, 
     executeFindBookInMasterBibliography,
     executeUpdateBookStatus,
+    executeCreateAuditLog,
 } from "./tools/index.js";
 
 const FORENSIC_WORKFLOW_INSTRUCTIONS = `
@@ -18,6 +19,7 @@ const FORENSIC_WORKFLOW_INSTRUCTIONS = `
 3. get_market_signals
 4. generate_exhibit_label
 5. update_book_status – If an audit reveals a High or Medium severity discrepancy, immediately update the Notion status to "Flagged for Review".
+6. create_audit_log – After an audit is complete, automatically call create_audit_log to maintain a permanent record in the Audit Logs database.
 `;
 
 const server = new McpServer({
@@ -130,6 +132,31 @@ server.registerTool(
             const message = error instanceof Error ? error.message : "Unknown error occurred";
             return {
                 content: [{ type: "text", text: `Error: ${message}. Ensure the page has a Status property and the integration has update access.` }],
+                isError: true,
+            };
+        }
+    }
+);
+
+server.registerTool(
+    "create_audit_log",
+    {
+        description: "Create a permanent audit log entry in the Audit Logs database. Call after every audit to maintain a record.",
+        inputSchema: {
+            book_title: z.string().describe("Title of the book audited"),
+            result: z.enum(["Pass", "Flagged", "Fail"]).describe("Audit result"),
+            summary: z.string().describe("Brief summary of the audit findings"),
+            full_report: z.string().describe("Full audit report (JSON or detailed text)"),
+        }
+    },
+    async (args: any) => {
+        try {
+            const result = await executeCreateAuditLog(args);
+            return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+        } catch (error) {
+            const message = error instanceof Error ? error.message : "Unknown error occurred";
+            return {
+                content: [{ type: "text", text: `Error: ${message}. Ensure NOTION_AUDIT_LOG_DATABASE_ID is set and the database has Title, Book Title, Result, Summary, and Full Report properties.` }],
                 isError: true,
             };
         }

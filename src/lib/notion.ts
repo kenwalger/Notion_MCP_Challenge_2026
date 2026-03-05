@@ -8,10 +8,11 @@ import type {
 /**
  * Notion API client wrappers for rare books operations.
  *
- * Three distinct data paths:
+ * Four distinct data paths:
  * 1. SEARCH PATH – General Notion DB (NOTION_BOOKS_DATABASE_ID) for search_books
  * 2. AUDIT PATH – Master Bibliography (NOTION_MASTER_BIBLIOGRAPHY_DATABASE_ID) for audit_artifact_consistency
  * 3. MARKET PATH – Market Results (NOTION_MARKET_RESULTS_DATABASE_ID) for get_market_signals
+ * 4. AUDIT LOG PATH – Audit Logs (NOTION_AUDIT_LOG_DATABASE_ID) for create_audit_log
  */
 
 const NOTION_TOKEN = process.env.NOTION_API_KEY ?? process.env.NOTION_TOKEN;
@@ -351,5 +352,74 @@ export async function updateBookStatus(
       },
     },
   });
+  return { success: true, page_id: pageId };
+}
+
+// -----------------------------------------------------------------------------
+// AUDIT LOG PATH – Audit Logs (permanent audit records)
+// -----------------------------------------------------------------------------
+
+/**
+ * Get the database ID for Audit Logs.
+ * Set NOTION_AUDIT_LOG_DATABASE_ID for production.
+ */
+export function getAuditLogDatabaseId(): string {
+  const dbId = process.env.NOTION_AUDIT_LOG_DATABASE_ID;
+  if (!dbId) {
+    throw new Error(
+      "NOTION_AUDIT_LOG_DATABASE_ID environment variable is required for audit logging. Create an Audit Logs database in Notion."
+    );
+  }
+  return dbId;
+}
+
+function richTextFromString(text: string): { type: "text"; text: { content: string } }[] {
+  const chunks: { type: "text"; text: { content: string } }[] = [];
+  const maxLen = 2000;
+  for (let i = 0; i < text.length; i += maxLen) {
+    chunks.push({
+      type: "text",
+      text: { content: text.slice(i, i + maxLen) },
+    });
+  }
+  return chunks.length > 0 ? chunks : [{ type: "text" as const, text: { content: "" } }];
+}
+
+export type AuditResult = "Pass" | "Flagged" | "Fail";
+
+/**
+ * Create a new page in the Audit Logs database.
+ * Expects properties: Title (title), Book Title (rich_text), Result (select/status), Summary (rich_text), Full Report (rich_text)
+ */
+export async function createAuditLog(params: {
+  book_title: string;
+  result: AuditResult;
+  summary: string;
+  full_report: string;
+}): Promise<{ success: boolean; page_id: string }> {
+  const databaseId = getAuditLogDatabaseId();
+
+  const response = await notionClient.pages.create({
+    parent: { database_id: databaseId },
+    properties: {
+      Title: {
+        title: [{ text: { content: `Audit: ${params.book_title}` } }],
+      },
+      "Book Title": {
+        rich_text: richTextFromString(params.book_title),
+      },
+      Result: {
+        select: { name: params.result },
+      },
+      Summary: {
+        rich_text: richTextFromString(params.summary),
+      },
+      "Full Report": {
+        rich_text: richTextFromString(params.full_report),
+      },
+    },
+  });
+
+  const pageId = "id" in response ? response.id : "";
   return { success: true, page_id: pageId };
 }

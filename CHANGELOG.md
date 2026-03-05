@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2025-03-04
+
+### Added
+
+- **create_audit_log** tool
+  - Create permanent audit records in the Audit Logs Notion database
+  - Arguments: book_title, result (enum: Pass, Flagged, Fail), summary, full_report
+  - Forensic Workflow step 6: after audit is complete, automatically call to maintain permanent record
+  - `createAuditLog()`, `getAuditLogDatabaseId()` in notion client
+  - `NOTION_AUDIT_LOG_DATABASE_ID` environment variable
+
 ## [0.2.0] - 2025-03-04
 
 ### Added
