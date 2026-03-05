@@ -10,8 +10,7 @@ import { fetchBookStandard } from "../lib/notion.js";
  * from the Master Bibliography.
  *
  * Severity hierarchy:
- * - High: first_edition_indicators fail (wrong edition / reprint suspected)
- * - Medium: points_of_issue fail (later state of a true first edition)
+ * - High: first_edition_indicators or points_of_issue fail (typo/state mismatch indicates forgery or wrong edition)
  * - Low: other discrepancies (binding, paper, year, etc.)
  */
 
@@ -70,14 +69,14 @@ export async function executeAuditArtifactConsistency(
     }
   }
 
-  // 2. If those pass, check points_of_issue – failures = Medium severity
+  // 2. Check points_of_issue – failures = High severity (typo mismatch indicates forgery/wrong state)
   for (const expected of standard.points_of_issue) {
     if (!containsMatch(expected, observed.points_of_issue_observed)) {
       discrepancies.push({
         field: "points_of_issue",
         expected,
         observed: observed.points_of_issue_observed.join("; ") || "(none observed)",
-        severity: "Medium",
+        severity: "High",
       });
       isConsistent = false;
     }

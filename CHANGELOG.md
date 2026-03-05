@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0] - 2025-03-04
+
+### Added
+
+- **Production test suite** – Vitest
+  - `vitest` dev dependency, `npm run test` script
+  - `src/__tests__/forensic-logic.test.ts` with mocked Notion client
+  - Tests for `audit_artifact_consistency`: Point of Issue typo (wabe vs wade) → High severity, first_edition_indicators fail, missing points, year mismatch, confidence score
+
+### Changed
+
+- **audit_artifact_consistency** – points_of_issue failures now return High severity (was Medium). Point-of-issue typo mismatches indicate forgery/wrong state.
+
 ## [0.3.0] - 2025-03-04
 
 ### Added
