@@ -15,6 +15,7 @@ This Model Context Protocol (MCP) server enables AI Agents (like Claude Desktop)
 2. **Perform Forensic Audits:** Compare physical observations against archival standards.
 3. **Capture Market Signals:** Pull recent "Hammer Prices" to contextualize risk.
 4. **Automate Governance:** Automatically update item statuses and maintain a permanent **Audit Log** in Notion for insurance and provenance.
+5. **Relational Provenance:** Automatially creates a "Two-Way Relation" between inventory items and forensic audit logs, maintaining a permanent chain of custody in Notion.
 
 ## High-Value Use Case
 While many MCP servers focus on general productivity, this project addresses the specific, high-stakes requirements of **Asset Governance**. By automating the forensic audit trail, we eliminate human error in identifying 1st-state variants, protecting dealers from five-figure valuation mistakes.

@@ -16,7 +16,7 @@ const FORENSIC_WORKFLOW_INSTRUCTIONS = `
 ## Forensic Workflow
 1. find_book_in_master_bibliography
 2. audit_artifact_consistency
-3. get_market_signals
+3. get_market_signals – When reporting market findings, always include the citation link or reference provided in the Market Results to ensure evidence-based auditing.
 4. generate_exhibit_label
 5. update_book_status – If an audit reveals a High or Medium severity discrepancy, immediately update the Notion status to "Flagged for Review".
 6. create_audit_log – After an audit is complete, automatically call create_audit_log to maintain a permanent record. You MUST pass the id from the Catalog search result into the catalog_page_id parameter of create_audit_log to maintain the relational thread.

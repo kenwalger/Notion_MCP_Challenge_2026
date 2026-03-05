@@ -286,14 +286,29 @@ export interface MarketSignalResult {
   author?: string;
   average_hammer_price: number;
   sales_count: number;
-  sales: Array<{ hammer_price: number; sale_date?: string }>;
+  sales: Array<{
+    hammer_price: number;
+    sale_date?: string;
+    citation?: string;
+  }>;
+}
+
+/** Extract Citation property from Notion page (url or rich_text). */
+function extractCitation(props: Record<string, unknown>): string | undefined {
+  const citation = props["Citation"] as
+    | { url?: string | null; rich_text?: Array<{ plain_text?: string }> }
+    | undefined;
+  if (!citation) return undefined;
+  if (citation.url) return citation.url;
+  const text = citation.rich_text?.[0]?.plain_text;
+  return text?.trim() || undefined;
 }
 
 /**
  * Query Market Results for the last 3 sales of a book, return average Hammer Price.
  * Uses databases.query (not notion.search) so the lookup is scoped to this database
  * only, rather than scanning the whole workspace.
- * Expects properties: Title, Author (optional), Hammer Price (number), Sale Date (date)
+ * Expects properties: Title, Author (optional), Hammer Price (number), Sale Date (date), Citation (url or rich_text)
  */
 export async function getMarketSignals(
   title: string,
@@ -324,17 +339,31 @@ export async function getMarketSignals(
     page_size: 3,
   });
 
-  const sales: Array<{ hammer_price: number; sale_date?: string }> = [];
-  type PageWithProps = { properties: Record<string, { number?: number; date?: { start: string } }> };
+  const sales: Array<{
+    hammer_price: number;
+    sale_date?: string;
+    citation?: string;
+  }> = [];
+  type PageWithProps = {
+    properties: Record<
+      string,
+      { number?: number; date?: { start: string }; url?: string; rich_text?: Array<{ plain_text?: string }> }
+    >;
+  };
   const raw = response.results as PageWithProps[];
 
   for (const page of raw) {
-    const props = page.properties ?? {};
+    const props = (page.properties ?? {}) as Record<string, unknown>;
     const hammerPrice = (props["Hammer Price"] as { number?: number })?.number;
     if (hammerPrice != null && hammerPrice > 0) {
       const saleDate = (props["Sale Date"] as { date?: { start: string } })
         ?.date?.start;
-      sales.push({ hammer_price: hammerPrice, sale_date: saleDate });
+      const citation = extractCitation(props);
+      sales.push({
+        hammer_price: hammerPrice,
+        sale_date: saleDate,
+        citation,
+      });
     }
   }
 

@@ -12,7 +12,7 @@ export async function executeGetMarketSignals(
   author?: string;
   average_hammer_price: number;
   sales_count: number;
-  sales: Array<{ hammer_price: number; sale_date?: string }>;
+  sales: Array<{ hammer_price: number; sale_date?: string; citation?: string }>;
 }> {
   const result = await getMarketSignals(args.title, args.author);
   return result;

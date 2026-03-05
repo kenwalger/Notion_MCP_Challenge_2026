@@ -32,6 +32,8 @@ I am conducting a formal forensic audit on a high-value asset. Please follow thi
 
 6. Reporting: Provide the final Exhibit Label in Markdown and confirm the Notion Page IDs you updated.
 
+7. Citation: If applicable, include the citation link from the Market Results in your final report.
+
 ## 📘 The Hobbit (1937)
 **Forensic Focus:** The "Dodgeson" typo on the back flap and the "First Printing" copyright statement.
 
@@ -55,6 +57,8 @@ I am conducting a formal forensic audit on a copy of The Hobbit. Please follow t
 
 6. Reporting: Provide the final Exhibit Label and confirm the Notion IDs updated.
 
+7. Citation: If applicable, include the citation link from the Market Results in your final report.
+
 ## 📙 The Great Gatsby (1925)
 **Forensic Focus:** The lowercase "j" in "jay gatsby" on the back of the dust jacket.
 
@@ -76,8 +80,13 @@ I am conducting a formal forensic audit on The Great Gatsby. Please follow this 
 
 6. Reporting: Provide the final Exhibit Label in Markdown and confirm the Notion Page IDs you updated.
 
+7. Citation: If applicable, include the citation link from the Market Results in your final report.
+
 ---
 
 ## 💡 Pro-Tip for Judges
 
 When running these prompts, observe the **Tool Use** window in Claude. You will see the agent orchestrating 4-5 distinct database calls to formulate its expert opinion.
+
+### Success Metric
+A successful run should conclude with two distinct green tool-call bubbles in Claude for `update_book_status` and `create_audit_log`, resulting in a clickable link between your Notion databases.
