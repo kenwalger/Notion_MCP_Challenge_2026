@@ -1,4 +1,11 @@
 #!/usr/bin/env node
+/**
+ * Rare Books Intelligence MCP Server
+ * Orchestrates forensic bibliographic audits by connecting
+ * Notion databases with LLM reasoning capabilities.
+ * @author Ken W. Alger (Abiqua Archive)
+ * @version 0.1.0
+ */
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
