@@ -147,6 +147,7 @@ server.registerTool(
             result: z.enum(["Pass", "Flagged", "Fail"]).describe("Audit result"),
             summary: z.string().describe("Brief summary of the audit findings"),
             full_report: z.string().describe("Full audit report (JSON or detailed text)"),
+            audit_date: z.string().optional().default(() => new Date().toISOString()).describe("ISO 8601 date string; defaults to current time if not provided"),
         }
     },
     async (args: any) => {
@@ -156,7 +157,7 @@ server.registerTool(
         } catch (error) {
             const message = error instanceof Error ? error.message : "Unknown error occurred";
             return {
-                content: [{ type: "text", text: `Error: ${message}. Ensure NOTION_AUDIT_LOG_DATABASE_ID is set and the database has title (primary), Result, Summary, and Full Report properties.` }],
+                content: [{ type: "text", text: `Error: ${message}. Ensure NOTION_AUDIT_LOG_DATABASE_ID is set and the database has title (primary), Audit Date, Result, Summary, and Full Report properties.` }],
                 isError: true,
             };
         }

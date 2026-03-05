@@ -5,6 +5,7 @@ export interface CreateAuditLogInput {
   result: "Pass" | "Flagged" | "Fail";
   summary: string;
   full_report: string;
+  audit_date?: string;
 }
 
 export async function executeCreateAuditLog(

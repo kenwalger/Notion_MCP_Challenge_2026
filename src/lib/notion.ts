@@ -171,11 +171,30 @@ function extractMultiLineText(
   return text.split("\n").map((s) => s.trim()).filter(Boolean);
 }
 
+function extractMultiSelect(
+  prop: { multi_select?: { name: string }[] }
+): string[] {
+  const items = prop?.multi_select ?? [];
+  return items.map((item) => item.name).filter(Boolean);
+}
+
+/**
+ * Extract string array from a property that may be multi_select or rich_text.
+ * Multi-select is the correct type for Points of Issue and First Edition Indicators in Notion.
+ */
+function extractStringArray(prop: Record<string, unknown>): string[] {
+  if (prop?.multi_select && Array.isArray(prop.multi_select)) {
+    return extractMultiSelect(prop as { multi_select: { name: string }[] });
+  }
+  return extractMultiLineText(prop as { rich_text?: { plain_text: string }[] });
+}
+
 /**
  * Fetch a BookStandard (Ground Truth) from the Master Bibliography by page ID.
- * Maps Notion properties to BookStandardSchema. Expects properties:
- * Title, Author, Publisher, Expected First Edition Year, Binding Type,
- * First Edition Indicators (multi-line), Points of Issue (multi-line), Paper Watermark
+ * Retrieves the full page object. Points of Issue and First Edition Indicators
+ * are parsed from multi_select arrays (or rich_text as fallback).
+ * Expects properties: Title, Author, Publisher, Expected First Edition Year,
+ * Binding Type, First Edition Indicators (multi_select), Points of Issue (multi_select), Paper Watermark
  */
 export async function fetchBookStandard(pageId: string): Promise<BookStandard> {
   const response = await notionClient.pages.retrieve({ page_id: pageId });
@@ -184,25 +203,20 @@ export async function fetchBookStandard(pageId: string): Promise<BookStandard> {
   }
 
   const props = "properties" in response ? response.properties : {};
-  const raw = props as Record<
-    string,
-    { rich_text?: { plain_text: string }[]; number?: number; select?: { name: string } }
-  >;
+  const raw = props as Record<string, unknown>;
 
-  const title = extractRichText(raw["Title"] ?? {});
-  const author = extractRichText(raw["Author"] ?? {});
-  const publisher = extractRichText(raw["Publisher"] ?? {});
-  const expectedYear = raw["Expected First Edition Year"]?.number ?? 0;
-  const bindingType = (raw["Binding Type"]?.select?.name ?? "Cloth") as
+  const title = extractRichText((raw["Title"] ?? {}) as { rich_text?: { plain_text: string }[] });
+  const author = extractRichText((raw["Author"] ?? {}) as { rich_text?: { plain_text: string }[] });
+  const publisher = extractRichText((raw["Publisher"] ?? {}) as { rich_text?: { plain_text: string }[] });
+  const expectedYear = (raw["Expected First Edition Year"] as { number?: number })?.number ?? 0;
+  const bindingType = ((raw["Binding Type"] as { select?: { name: string } })?.select?.name ?? "Cloth") as
     | "Leather"
     | "Cloth"
     | "Paper Wrap"
     | "Vellum";
-  const firstEditionIndicators = extractMultiLineText(
-    raw["First Edition Indicators"] ?? {}
-  );
-  const pointsOfIssue = extractMultiLineText(raw["Points of Issue"] ?? {});
-  const paperWatermark = extractRichText(raw["Paper Watermark"] ?? {});
+  const firstEditionIndicators = extractStringArray((raw["First Edition Indicators"] ?? {}) as Record<string, unknown>);
+  const pointsOfIssue = extractStringArray((raw["Points of Issue"] ?? {}) as Record<string, unknown>);
+  const paperWatermark = extractRichText((raw["Paper Watermark"] ?? {}) as { rich_text?: { plain_text: string }[] });
 
   return {
     title: title || "Unknown",
@@ -219,8 +233,9 @@ export async function fetchBookStandard(pageId: string): Promise<BookStandard> {
 /**
  * Query the Master Bibliography to find a book by title/author.
  * Uses databases.query (not notion.search) so the lookup is scoped to this database
- * only, rather than scanning the whole workspace.
- * Returns page IDs for use with fetchBookStandard.
+ * only. Uses equals for Title to avoid fuzzy search misses.
+ * Returns full page IDs; caller uses fetchBookStandard to get the full page
+ * including multi_select Points of Issue and First Edition Indicators.
  */
 export async function findBookStandardInMasterBibliography(
   title: string,
@@ -229,11 +244,11 @@ export async function findBookStandardInMasterBibliography(
   const databaseId = getMasterBibliographyDatabaseId();
 
   type PropertyFilter =
-    | { property: string; title: { contains: string } }
+    | { property: string; title: { equals: string } }
     | { property: string; rich_text: { contains: string } };
 
   const filter: PropertyFilter[] = [
-    { property: "Title", title: { contains: title } },
+    { property: "Title", title: { equals: title } },
   ];
   if (author) {
     filter.push({ property: "Author", rich_text: { contains: author } });
@@ -405,13 +420,14 @@ function getAuditLogTitlePropertyName(): string {
  * Maps book_title to the primary title property using the title-type structure
  * { title: [{ text: { content } }] }, so it targets the database's title column
  * regardless of its display name in Notion.
- * Expects properties: primary title (title type), Result (select/status), Summary (rich_text), Full Report (rich_text)
+ * Expects properties: primary title (title type), Audit Date (date), Result (select/status), Summary (rich_text), Full Report (rich_text)
  */
 export async function createAuditLog(params: {
   book_title: string;
   result: AuditResult;
   summary: string;
   full_report: string;
+  audit_date?: string;
 }): Promise<{ success: boolean; page_id: string }> {
   const databaseId = getAuditLogDatabaseId();
   const titlePropName = getAuditLogTitlePropertyName();
@@ -419,6 +435,11 @@ export async function createAuditLog(params: {
   const properties: Record<string, unknown> = {
     [titlePropName]: {
       title: [{ text: { content: params.book_title } }],
+    },
+    'Audit Date': {
+      date: {
+        start: params.audit_date ?? new Date().toISOString(),
+      },
     },
     Result: {
       select: { name: params.result },
