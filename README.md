@@ -1,4 +1,8 @@
-# Rare Book Intelligence MCP Server
+<p align="center">
+  <img src="logo.png" alt="Abiqua Archive Logo" width="200">
+</p>
+
+# Archival Intelligence: Proprietary Forensic Engine for Abiqua Archive.
 
 **A Forensic Audit & Valuation Engine for High-Value Bibliographic Assets**
 
@@ -69,7 +73,7 @@ Unlike standalone bots, this system utilizes a Relational Graph architecture. Ev
    npm run build
    ```
 
-2. **Notion Setup:** Duplicate the [Rare Book Template] (link your template here) and configure `.env`:
+2. **Notion Setup:** Duplicate the [Abiqua Archive: Forensic Asset Vault](https://www.notion.so/Abiqua-Archive-Forensic-Asset-Vault-31aac0eb355080688b33ede2be9fd70f) and configure `.env`:
    - `NOTION_API_KEY` – Integration token
    - `NOTION_BOOKS_DATABASE_ID`, `NOTION_MASTER_BIBLIOGRAPHY_DATABASE_ID`, `NOTION_MARKET_RESULTS_DATABASE_ID`, `NOTION_AUDIT_LOG_DATABASE_ID`
 
