@@ -19,15 +19,13 @@ This Model Context Protocol (MCP) server enables AI Agents (like Claude Desktop)
 ## High-Value Use Case
 While many MCP servers focus on general productivity, this project addresses the specific, high-stakes requirements of **Asset Governance**. By automating the forensic audit trail, we eliminate human error in identifying 1st-state variants, protecting dealers from five-figure valuation mistakes.
 
----
-
 ## Why Notion?
 
 This project leverages Notion not just as a database, but as a relational engine. By linking Inventory, Bibliographic Standards, and Audit Logs, we create a 'Single Source of Truth' for asset provenance that is impossible to achieve with flat-file AI tools.
 
 ---
 
-System Architecture
+## System Architecture
 
 ```mermaid
 graph TD
@@ -43,6 +41,10 @@ graph TD
     F
     end
 ```
+
+## Relational Architecture
+
+Unlike standalone bots, this system utilizes a Relational Graph architecture. Every audit creates a permanent, immutable link between the *Inventory* (`Books Catalog`) and the *Evidence* (`Audit History`), ensuring a verifiable chain of custody for high-value assets.
 
 ---
 

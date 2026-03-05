@@ -2,10 +2,14 @@
 
 Use these prompts in Claude Desktop to verify the relational logic and forensic auditing capabilities of the Rare Book Intelligence MCP.
 
-## ⚠️ Setup Note: For these prompts to work end-to-end, ensure the book titles in your Notion databases match the prompt text exactly (e.g., use a straight apostrophe in Alice's).
+### ⚠️ Setup Note: 
+For these prompts to work end-to-end, ensure the book titles in your Notion databases match the prompt text exactly (e.g., use a straight apostrophe in Alice's).
 
 ## 🛠️ Global Audit Protocol
 This is the master prompt used to trigger the multi-database forensic chain (Search -> Archive -> Market -> Audit -> Log).
+
+###  Expected Outcome: 
+Claude should identify the discrepancy, update the Catalog status to 'Flagged', and create a linked record in the Audit History with the full forensic report.
 
 ## Alice's Adventures in Wonderland
 **Forensic Focus:** The "wabe" vs. "wade" textual variant in the Jabberwocky poem (page 192). This identifies the 1866 first trade edition state versus later, less valuable reprints.
@@ -71,11 +75,6 @@ I am conducting a formal forensic audit on The Great Gatsby. Please follow this 
 + Create a new entry in the Audit Log database detailing the overvaluation risk ($100k+ discrepancy).
 
 6. Reporting: Provide the final Exhibit Label in Markdown and confirm the Notion Page IDs you updated.
-
----
-
-## Expected Outcome: 
-Claude should identify the discrepancy, update the Catalog status to 'Flagged', and create a linked record in the Audit History with the full forensic report.
 
 ---
 

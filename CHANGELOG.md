@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **create_audit_log** – `catalog_page_id` (required string). Notion page ID from search_books or find_book_in_master_bibliography; mapped to `'Linked Book'` relation property so audit logs link to catalog entries. Forensic Workflow instructions updated to capture page ID from initial catalog search and pass it into create_audit_log.
+- **create_audit_log** – `catalog_page_id` (required string). Notion page ID from the Catalog search result (search_books or find_book_in_master_bibliography); mapped to `'Linked Book'` relation property so audit logs link to catalog entries. Forensic Workflow: agent MUST pass the id from the Catalog search result into catalog_page_id to maintain the relational thread.
 
 ## [0.6.0] - 2025-03-04
 

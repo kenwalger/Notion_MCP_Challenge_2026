@@ -19,7 +19,7 @@ const FORENSIC_WORKFLOW_INSTRUCTIONS = `
 3. get_market_signals
 4. generate_exhibit_label
 5. update_book_status – If an audit reveals a High or Medium severity discrepancy, immediately update the Notion status to "Flagged for Review".
-6. create_audit_log – After an audit is complete, automatically call create_audit_log to maintain a permanent record. Capture the page ID (id) from the initial catalog search (search_books or find_book_in_master_bibliography) and pass it as catalog_page_id to link the audit log to the book.
+6. create_audit_log – After an audit is complete, automatically call create_audit_log to maintain a permanent record. You MUST pass the id from the Catalog search result into the catalog_page_id parameter of create_audit_log to maintain the relational thread.
 `;
 
 const server = new McpServer({
