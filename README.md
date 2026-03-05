@@ -16,7 +16,24 @@ This Model Context Protocol (MCP) server enables AI Agents (like Claude Desktop)
 3. **Capture Market Signals:** Pull recent "Hammer Prices" to contextualize risk.
 4. **Automate Governance:** Automatically update item statuses and maintain a permanent **Audit Log** in Notion for insurance and provenance.
 
+---
 
+System Architecture
+
+```mermaid
+graph TD
+    A[Claude Desktop / AI Agent] -->|MCP Protocol| B[Rare Book MCP Server]
+    B -->|Search/Read| C[(Master Bibliography)]
+    B -->|Search/Read| D[(Market Results)]
+    B -->|Audit/Write| E[(Books Catalog)]
+    B -->|Log/Write| F[(Audit History)]
+    subgraph Notion Workspace
+    C
+    D
+    E
+    F
+    end
+```
 
 ---
 

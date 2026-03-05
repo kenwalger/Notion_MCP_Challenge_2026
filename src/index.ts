@@ -156,7 +156,7 @@ server.registerTool(
         } catch (error) {
             const message = error instanceof Error ? error.message : "Unknown error occurred";
             return {
-                content: [{ type: "text", text: `Error: ${message}. Ensure NOTION_AUDIT_LOG_DATABASE_ID is set and the database has Title, Book Title, Result, Summary, and Full Report properties.` }],
+                content: [{ type: "text", text: `Error: ${message}. Ensure NOTION_AUDIT_LOG_DATABASE_ID is set and the database has title (primary), Result, Summary, and Full Report properties.` }],
                 isError: true,
             };
         }

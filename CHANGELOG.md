@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - 2025-03-04
+
+### Changed
+
+- **create_audit_log** – Map book_title to the primary title property `"title"` (lowercase), the default primary column for Notion databases. Add optional `NOTION_AUDIT_LOG_TITLE_PROPERTY` env var if the column was renamed. Remove reference to "Book Title" property.
+
+- **find_book_in_master_bibliography**, **get_market_signals** – Document that both use `databases.query` with Title filter (not `notion.search`), scoping lookups to the specific database rather than the whole workspace.
+
 ## [0.4.0] - 2025-03-04
 
 ### Added

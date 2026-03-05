@@ -218,6 +218,8 @@ export async function fetchBookStandard(pageId: string): Promise<BookStandard> {
 
 /**
  * Query the Master Bibliography to find a book by title/author.
+ * Uses databases.query (not notion.search) so the lookup is scoped to this database
+ * only, rather than scanning the whole workspace.
  * Returns page IDs for use with fetchBookStandard.
  */
 export async function findBookStandardInMasterBibliography(
@@ -274,6 +276,8 @@ export interface MarketSignalResult {
 
 /**
  * Query Market Results for the last 3 sales of a book, return average Hammer Price.
+ * Uses databases.query (not notion.search) so the lookup is scoped to this database
+ * only, rather than scanning the whole workspace.
  * Expects properties: Title, Author (optional), Hammer Price (number), Sale Date (date)
  */
 export async function getMarketSignals(
@@ -388,8 +392,20 @@ function richTextFromString(text: string): { type: "text"; text: { content: stri
 export type AuditResult = "Pass" | "Flagged" | "Fail";
 
 /**
+ * Get the primary title property name for the Audit Logs database.
+ * Default is "title" (lowercase), the default primary column for Notion databases.
+ * If you renamed it, set NOTION_AUDIT_LOG_TITLE_PROPERTY to match.
+ */
+function getAuditLogTitlePropertyName(): string {
+  return process.env.NOTION_AUDIT_LOG_TITLE_PROPERTY ?? "title";
+}
+
+/**
  * Create a new page in the Audit Logs database.
- * Expects properties: Title (title), Book Title (rich_text), Result (select/status), Summary (rich_text), Full Report (rich_text)
+ * Maps book_title to the primary title property using the title-type structure
+ * { title: [{ text: { content } }] }, so it targets the database's title column
+ * regardless of its display name in Notion.
+ * Expects properties: primary title (title type), Result (select/status), Summary (rich_text), Full Report (rich_text)
  */
 export async function createAuditLog(params: {
   book_title: string;
@@ -398,26 +414,26 @@ export async function createAuditLog(params: {
   full_report: string;
 }): Promise<{ success: boolean; page_id: string }> {
   const databaseId = getAuditLogDatabaseId();
+  const titlePropName = getAuditLogTitlePropertyName();
+
+  const properties: Record<string, unknown> = {
+    [titlePropName]: {
+      title: [{ text: { content: params.book_title } }],
+    },
+    Result: {
+      select: { name: params.result },
+    },
+    Summary: {
+      rich_text: richTextFromString(params.summary),
+    },
+    "Full Report": {
+      rich_text: richTextFromString(params.full_report),
+    },
+  };
 
   const response = await notionClient.pages.create({
     parent: { database_id: databaseId },
-    properties: {
-      Title: {
-        title: [{ text: { content: `Audit: ${params.book_title}` } }],
-      },
-      "Book Title": {
-        rich_text: richTextFromString(params.book_title),
-      },
-      Result: {
-        select: { name: params.result },
-      },
-      Summary: {
-        rich_text: richTextFromString(params.summary),
-      },
-      "Full Report": {
-        rich_text: richTextFromString(params.full_report),
-      },
-    },
+    properties: properties as Parameters<typeof notionClient.pages.create>[0]["properties"],
   });
 
   const pageId = "id" in response ? response.id : "";
