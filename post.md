@@ -24,5 +24,6 @@ Most MCP implementations focus on simple data retrieval. I pushed the **Model Co
     * Flip the inventory status to **"Flagged"**.
     * Create a permanent, timestamped **Audit Log**.
     * **Relational Linking:** Automatically link the log entry back to the catalog item, ensuring a verifiable provenance record.
+    * **Automated Export:** Genearate a museum-read **Exhibit Label** in Markdown, cynthesizing complex forensic findings into a clear, actionable summary for curators.
 
 This unlocks a forensic "expert-in-your-pocket" workflow for any dealer, collector, or insurance adjuster using Notion.

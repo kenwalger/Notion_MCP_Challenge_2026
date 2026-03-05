@@ -19,7 +19,7 @@ This Model Context Protocol (MCP) server enables AI Agents (like Claude Desktop)
 2. **Perform Forensic Audits:** Compare physical observations against archival standards.
 3. **Capture Market Signals:** Pull recent "Hammer Prices" to contextualize risk.
 4. **Automate Governance:** Automatically update item statuses and maintain a permanent **Audit Log** in Notion for insurance and provenance.
-5. **Relational Provenance:** Automatially creates a "Two-Way Relation" between inventory items and forensic audit logs, maintaining a permanent chain of custody in Notion.
+5. **Relational Provenance:** Automatically creates a "Two-Way Relation" between inventory items and forensic audit logs, maintaining a permanent chain of custody in Notion.
 
 ## High-Value Use Case
 While many MCP servers focus on general productivity, this project addresses the specific, high-stakes requirements of **Asset Governance**. By automating the forensic audit trail, we eliminate human error in identifying 1st-state variants, protecting dealers from five-figure valuation mistakes.
@@ -49,7 +49,7 @@ graph TD
 
 ## Relational Architecture
 
-Unlike standalone bots, this system utilizes a Relational Graph architecture. Every audit creates a permanent, immutable link between the *Inventory* (`Books Catalog`) and the *Evidence* (`Audit History`), ensuring a verifiable chain of custody for high-value assets.
+Unlike standalone bots, this system utilizes a Relational Graph architecture. Every audit creates a permanent, immutable link between the *Inventory* (`Books Catalog`) and the *Evidence* (`Audit History`), ensuring a verifiable chain of custody for high-value assets. When an audit fails, the system doesn't just create a log; it back-links that log to the specific Catalog page, creating a 360-degree view of the asset's forensic history directly within the Notion UI.
 
 ---
 
@@ -73,7 +73,7 @@ Unlike standalone bots, this system utilizes a Relational Graph architecture. Ev
    npm run build
    ```
 
-2. **Notion Setup:** Duplicate the [Abiqua Archive: Forensic Asset Vault](https://www.notion.so/Abiqua-Archive-Forensic-Asset-Vault-31aac0eb355080688b33ede2be9fd70f) and configure `.env`:
+2. **Notion Setup:** Duplicate the [Abiqua Archive: Forensic Asset Vault](https://achieved-wedge-edc.notion.site/Abiqua-Archive-Forensic-Asset-Vault-31aac0eb355080688b33ede2be9fd70f) and configure `.env`:
    - `NOTION_API_KEY` – Integration token
    - `NOTION_BOOKS_DATABASE_ID`, `NOTION_MASTER_BIBLIOGRAPHY_DATABASE_ID`, `NOTION_MARKET_RESULTS_DATABASE_ID`, `NOTION_AUDIT_LOG_DATABASE_ID`
 
