@@ -2,6 +2,7 @@ import { createAuditLog as createAuditLogInNotion } from "../lib/notion.js";
 
 export interface CreateAuditLogInput {
   book_title: string;
+  catalog_page_id: string;
   result: "Pass" | "Flagged" | "Fail";
   summary: string;
   full_report: string;

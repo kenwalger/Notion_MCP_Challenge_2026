@@ -73,6 +73,12 @@ I am conducting a formal forensic audit on The Great Gatsby. Please follow this 
 6. Reporting: Provide the final Exhibit Label in Markdown and confirm the Notion Page IDs you updated.
 
 ---
+
+## Expected Outcome: 
+Claude should identify the discrepancy, update the Catalog status to 'Flagged', and create a linked record in the Audit History with the full forensic report.
+
+---
+
 ## 💡 Pro-Tip for Judges
 
 When running these prompts, observe the **Tool Use** window in Claude. You will see the agent orchestrating 4-5 distinct database calls to formulate its expert opinion.

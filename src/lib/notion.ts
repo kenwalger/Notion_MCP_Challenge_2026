@@ -417,13 +417,12 @@ function getAuditLogTitlePropertyName(): string {
 
 /**
  * Create a new page in the Audit Logs database.
- * Maps book_title to the primary title property using the title-type structure
- * { title: [{ text: { content } }] }, so it targets the database's title column
- * regardless of its display name in Notion.
- * Expects properties: primary title (title type), Audit Date (date), Result (select/status), Summary (rich_text), Full Report (rich_text)
+ * Maps book_title to the primary title property; catalog_page_id to Linked Book relation.
+ * Expects properties: primary title (title type), Linked Book (relation), Audit Date (date), Result (select/status), Summary (rich_text), Full Report (rich_text)
  */
 export async function createAuditLog(params: {
   book_title: string;
+  catalog_page_id: string;
   result: AuditResult;
   summary: string;
   full_report: string;
@@ -435,6 +434,9 @@ export async function createAuditLog(params: {
   const properties: Record<string, unknown> = {
     [titlePropName]: {
       title: [{ text: { content: params.book_title } }],
+    },
+    'Linked Book': {
+      relation: [{ id: params.catalog_page_id }],
     },
     'Audit Date': {
       date: {

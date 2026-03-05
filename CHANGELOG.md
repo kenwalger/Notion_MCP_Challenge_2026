@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0] - 2025-03-04
+
+### Added
+
+- **create_audit_log** – `catalog_page_id` (required string). Notion page ID from search_books or find_book_in_master_bibliography; mapped to `'Linked Book'` relation property so audit logs link to catalog entries. Forensic Workflow instructions updated to capture page ID from initial catalog search and pass it into create_audit_log.
+
 ## [0.6.0] - 2025-03-04
 
 ### Added

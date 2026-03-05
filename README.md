@@ -1,4 +1,4 @@
-# 🔍 Rare Book Intelligence MCP Server
+# Rare Book Intelligence MCP Server
 
 **A Forensic Audit & Valuation Engine for High-Value Bibliographic Assets**
 
@@ -6,15 +6,24 @@ Built for the **2026 Notion MCP Hackathon**, this server transforms a standard N
 
 ---
 
-## 🏛️ The Problem
+## The Problem
 High-value rare book trade relies on "Points of Issue"—tiny typographic or physical variations (like a single letter typo in a 19th-century poem) that determine if a book is worth $50,000 or $500. Non-experts often miss these "Ground Truth" markers, leading to massive financial loss and authenticity risks.
 
-## 🚀 The Solution
+## The Solution
 This Model Context Protocol (MCP) server enables AI Agents (like Claude Desktop) to:
 1. **Sync with Ground Truth:** Query a private "Master Bibliography" for definitive state-markers.
 2. **Perform Forensic Audits:** Compare physical observations against archival standards.
 3. **Capture Market Signals:** Pull recent "Hammer Prices" to contextualize risk.
 4. **Automate Governance:** Automatically update item statuses and maintain a permanent **Audit Log** in Notion for insurance and provenance.
+
+## High-Value Use Case
+While many MCP servers focus on general productivity, this project addresses the specific, high-stakes requirements of **Asset Governance**. By automating the forensic audit trail, we eliminate human error in identifying 1st-state variants, protecting dealers from five-figure valuation mistakes.
+
+---
+
+## Why Notion?
+
+This project leverages Notion not just as a database, but as a relational engine. By linking Inventory, Bibliographic Standards, and Audit Logs, we create a 'Single Source of Truth' for asset provenance that is impossible to achieve with flat-file AI tools.
 
 ---
 
@@ -37,7 +46,7 @@ graph TD
 
 ---
 
-## 🛠️ Features & Tools
+## Features & Tools
 
 | Tool | Function | Enterprise Impact |
 | :--- | :--- | :--- |
@@ -48,7 +57,7 @@ graph TD
 
 ---
 
-## 📦 Installation & Setup
+## Installation & Setup
 
 1. **Clone & Install:**
    ```bash
@@ -62,6 +71,12 @@ graph TD
    - `NOTION_BOOKS_DATABASE_ID`, `NOTION_MASTER_BIBLIOGRAPHY_DATABASE_ID`, `NOTION_MARKET_RESULTS_DATABASE_ID`, `NOTION_AUDIT_LOG_DATABASE_ID`
 
 3. **Claude Desktop Integration:** Add the absolute path to `dist/index.js` in your `claude_desktop_config.json`.
+
+---
+
+### Try the Forensic Suite.
+
+To see the relational logic in action, follow the guided test cases in [prompts.md](prompts.md). These cover three high-stakes forensic scenarios: *Alice's Adventures in Wonderland*, *The Hobbit*, and *The Great Gatsby*.
 
 ---
 

@@ -19,7 +19,7 @@ const FORENSIC_WORKFLOW_INSTRUCTIONS = `
 3. get_market_signals
 4. generate_exhibit_label
 5. update_book_status – If an audit reveals a High or Medium severity discrepancy, immediately update the Notion status to "Flagged for Review".
-6. create_audit_log – After an audit is complete, automatically call create_audit_log to maintain a permanent record in the Audit Logs database.
+6. create_audit_log – After an audit is complete, automatically call create_audit_log to maintain a permanent record. Capture the page ID (id) from the initial catalog search (search_books or find_book_in_master_bibliography) and pass it as catalog_page_id to link the audit log to the book.
 `;
 
 const server = new McpServer({
@@ -144,6 +144,7 @@ server.registerTool(
         description: "Create a permanent audit log entry in the Audit Logs database. Call after every audit to maintain a record.",
         inputSchema: {
             book_title: z.string().describe("Title of the book audited"),
+            catalog_page_id: z.string().describe("Notion page ID of the book from search_books or find_book_in_master_bibliography; links audit to the catalog entry"),
             result: z.enum(["Pass", "Flagged", "Fail"]).describe("Audit result"),
             summary: z.string().describe("Brief summary of the audit findings"),
             full_report: z.string().describe("Full audit report (JSON or detailed text)"),
@@ -157,7 +158,7 @@ server.registerTool(
         } catch (error) {
             const message = error instanceof Error ? error.message : "Unknown error occurred";
             return {
-                content: [{ type: "text", text: `Error: ${message}. Ensure NOTION_AUDIT_LOG_DATABASE_ID is set and the database has title (primary), Audit Date, Result, Summary, and Full Report properties.` }],
+                content: [{ type: "text", text: `Error: ${message}. Ensure NOTION_AUDIT_LOG_DATABASE_ID is set and the database has title (primary), Linked Book (relation), Audit Date, Result, Summary, and Full Report properties.` }],
                 isError: true,
             };
         }
