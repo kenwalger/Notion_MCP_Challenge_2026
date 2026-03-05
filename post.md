@@ -20,9 +20,9 @@ Most MCP implementations focus on simple data retrieval. I pushed the **Model Co
 1.  **Forensic Search:** The agent queries the *Books Catalog* for observed data.
 2.  **Archival Collation:** It retrieves "Ground Truth" standards from a private *Master Bibliography*.
 3.  **Market Intelligence:** it analyzes historical sales in the *Market Results* database.
-4.  **Automated Governance:** If a discrepancy is found (like the "wade/wabe" variant in *Alice in Wonderland*), the agent uses the Notion API to:
+4.  **Automated Governance:** If a discrepancy is found (like the "j" variant in *The Great Gatsby*, or the 'wabe/wade' variant in *Alice's Adventures in Wonderland'), the agent uses the Notion API to:
     * Flip the inventory status to **"Flagged"**.
     * Create a permanent, timestamped **Audit Log**.
     * **Relational Linking:** Automatically link the log entry back to the catalog item, ensuring a verifiable provenance record.
 
-This unlocks a "Pawn Stars" style expert-in-your-pocket workflow for any dealer, collector, or insurance adjuster using Notion.
+This unlocks a forensic "expert-in-your-pocket" workflow for any dealer, collector, or insurance adjuster using Notion.

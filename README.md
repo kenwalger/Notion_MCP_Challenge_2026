@@ -75,6 +75,11 @@ Unlike standalone bots, this system utilizes a Relational Graph architecture. Ev
 
 3. **Claude Desktop Integration:** Add the absolute path to `dist/index.js` in your `claude_desktop_config.json`.
 
+
+### ✅ Quality Assurance
+This project includes a suite of unit tests built with Vitest to ensure the forensic logic remains sound even without a live Notion connection. Run them with:
+npm test
+
 ---
 
 ## Reproducibility

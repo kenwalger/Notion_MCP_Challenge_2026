@@ -11,6 +11,32 @@ This is the master prompt used to trigger the multi-database forensic chain (Sea
 ###  Expected Outcome: 
 Claude should identify the discrepancy, update the Catalog status to 'Flagged', and create a linked record in the Audit History with the full forensic report.
 
+## 💡 Quick Start for Judges: 
+To see the full forensic chain in under 60 seconds, copy and paste the Gatsby Audit prompt. It demonstrates cross-database lookups, market price risk analysis, and automated status flagging in Notion.
+
+## 📙 The Great Gatsby (1925)
+**Forensic Focus:** The lowercase "j" in "jay gatsby" on the back of the dust jacket.
+
+**Prompt:**
+
+I am conducting a formal forensic audit on The Great Gatsby. Please follow this protocol:
+
+1. Search Catalog: Find the entry for 'The Great Gatsby' in the Books Catalog.
+
+2. Archival Lookup: Search the 'Master Bibliography' for 'The Great Gatsby' (1925) to retrieve the 'Ground Truth' for the dust jacket states.
+
+3. Market Analysis: Query 'Market Results' for the price difference between a 1st state jacket (lowercase 'j') and a 2nd state jacket (capital 'J').
+
+4. Forensic Collation: Compare the observation (Back jacket has a capital 'J' in 'Jay Gatsby') against the Master Bibliography requirement (must be lowercase 'j').
+
+5. Execution: >    - If the discrepancy is confirmed, update the Catalog Status to 'Flagged'.
+
++ Create a new entry in the Audit Log database detailing the overvaluation risk ($100k+ discrepancy).
+
+6. Reporting: Provide the final Exhibit Label in Markdown and confirm the Notion Page IDs you updated.
+
+7. Citation: If applicable, include the citation link from the Market Results in your final report.
+
 ## Alice's Adventures in Wonderland
 **Forensic Focus:** The "wabe" vs. "wade" textual variant in the Jabberwocky poem (page 192). This identifies the 1866 first trade edition state versus later, less valuable reprints.
 
@@ -56,29 +82,6 @@ I am conducting a formal forensic audit on a copy of The Hobbit. Please follow t
   + Create a new entry in the Audit Log database including the result and the market value context.
 
 6. Reporting: Provide the final Exhibit Label and confirm the Notion IDs updated.
-
-7. Citation: If applicable, include the citation link from the Market Results in your final report.
-
-## 📙 The Great Gatsby (1925)
-**Forensic Focus:** The lowercase "j" in "jay gatsby" on the back of the dust jacket.
-
-**Prompt:**
-
-I am conducting a formal forensic audit on The Great Gatsby. Please follow this protocol:
-
-1. Search Catalog: Find the entry for 'The Great Gatsby' in the Books Catalog.
-
-2. Archival Lookup: Search the 'Master Bibliography' for 'The Great Gatsby' (1925) to retrieve the 'Ground Truth' for the dust jacket states.
-
-3. Market Analysis: Query 'Market Results' for the price difference between a 1st state jacket (lowercase 'j') and a 2nd state jacket (capital 'J').
-
-4. Forensic Collation: Compare the observation (Back jacket has a capital 'J' in 'Jay Gatsby') against the Master Bibliography requirement (must be lowercase 'j').
-
-5. Execution: >    - If the discrepancy is confirmed, update the Catalog Status to 'Flagged'.
-
-+ Create a new entry in the Audit Log database detailing the overvaluation risk ($100k+ discrepancy).
-
-6. Reporting: Provide the final Exhibit Label in Markdown and confirm the Notion Page IDs you updated.
 
 7. Citation: If applicable, include the citation link from the Market Results in your final report.
 
