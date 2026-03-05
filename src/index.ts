@@ -17,7 +17,7 @@ const FORENSIC_WORKFLOW_INSTRUCTIONS = `
 1. find_book_in_master_bibliography
 2. audit_artifact_consistency
 3. get_market_signals – When reporting market findings, always include the citation link or reference provided in the Market Results to ensure evidence-based auditing.
-4. generate_exhibit_label
+4. generate_exhibit_label – Once an audit is successful, offer to generate a formal Exhibit Label. If the user agrees, use the generate_exhibit_label tool and suggest saving the output back to the Notion page's 'Full Report' field.
 5. update_book_status – If an audit reveals a High or Medium severity discrepancy, immediately update the Notion status to "Flagged for Review".
 6. create_audit_log – After an audit is complete, automatically call create_audit_log to maintain a permanent record. You MUST pass the id from the Catalog search result into the catalog_page_id parameter of create_audit_log to maintain the relational thread.
 `;
@@ -103,10 +103,11 @@ server.registerTool(
 server.registerTool(
     "generate_exhibit_label",
     {
-        description: "Generate a professional Markdown placard.",
+        description: "Generate a high-fidelity Markdown exhibit placard for museum display. Returns formatted sections: Archival Description, Forensic Verification Summary, Valuation Context, plus disclaimer.",
         inputSchema: {
-            audit_report: z.record(z.unknown()),
-            book_standard: z.record(z.unknown()),
+            book_data: z.record(z.unknown()).describe("Book metadata (title, author, publisher, year, binding, etc.) from Master Bibliography or catalog"),
+            audit_results: z.record(z.unknown()).describe("Audit findings from audit_artifact_consistency (result, confidence, discrepancies)"),
+            market_citation: z.string().describe("Citation link or reference from Market Results for valuation evidence"),
         }
     },
     async (args: any) => {

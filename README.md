@@ -77,9 +77,18 @@ Unlike standalone bots, this system utilizes a Relational Graph architecture. Ev
 
 ---
 
-### Try the Forensic Suite.
+## Reproducibility
+
+To reproduce the forensic results shown in the video, we have provided a full set of [Sample Data](sample_data/). These CSVs can be imported directly into Notion to instantly recreate the Master Bibliography and Market Result databases used for the Alice, Hobbit, and Gatsby audits.
+
+### Try the Forensic Suite
 
 To see the relational logic in action, follow the guided test cases in [prompts.md](prompts.md). These cover three high-stakes forensic scenarios: *Alice's Adventures in Wonderland*, *The Hobbit*, and *The Great Gatsby*.
+
+---
+
+## ⚠️ Disclaimer: 
+Archival Intelligence is an MCP-based decision-support tool. Valuations are based on connected sample databases and historical auction results. Professional physical appraisal is always required for high-value asset transactions.
 
 ---
 

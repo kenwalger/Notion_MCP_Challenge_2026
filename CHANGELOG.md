@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.0] - 2025-03-04
+
+### Added
+
+- **sample_data** – CSV files for project replication: `books_catalog.csv`, `master_bibliography.csv`, `market_results.csv`, `audit_history.csv`. Import into Notion to recreate the forensic test environment used for Alice, Hobbit, and Gatsby audits.
+
+### Changed
+
+- **generate_exhibit_label** – Rewritten with new inputs (`book_data`, `audit_results`, `market_citation`) and high-fidelity museum placard format. Sections: Archival Description, Forensic Verification Summary, Valuation Context. Disclaimer appended. Forensic Workflow: once an audit is successful, offer to generate a formal Exhibit Label; suggest saving output to the Notion page's Full Report field.
+
 ## [0.8.0] - 2025-03-04
 
 ### Added
