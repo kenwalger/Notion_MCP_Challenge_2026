@@ -1,8 +1,9 @@
 <p align="center">
-  <img src="logo.png" alt="Abiqua Archive Logo" width="200">
+  <img src="logo.png" alt="Abiqua Archive Logo" width="240">
 </p>
 
-# Archival Intelligence: Proprietary Forensic Engine for Abiqua Archive.
+# Archival Intelligence
+### Proprietary Forensic Engine for Abiqua Archive
 
 **A Forensic Audit & Valuation Engine for High-Value Bibliographic Assets**
 
@@ -10,27 +11,27 @@ Built for the **2026 Notion MCP Hackathon**, this server transforms a standard N
 
 ---
 
-## The Problem
-High-value rare book trade relies on "Points of Issue"—tiny typographic or physical variations (like a single letter typo in a 19th-century poem) that determine if a book is worth $50,000 or $500. Non-experts often miss these "Ground Truth" markers, leading to massive financial loss and authenticity risks.
+## 🚩 The Problem
+High-value rare book trade relies on **"Points of Issue"**—tiny typographic or physical variations (like a single letter typo in a 19th-century poem) that determine if a book is worth $50,000 or $500. Non-experts often miss these "Ground Truth" markers, leading to massive financial loss and authenticity risks.
 
-## The Solution
+## 🛡️ The Solution
 This Model Context Protocol (MCP) server enables AI Agents (like Claude Desktop) to:
-1. **Sync with Ground Truth:** Query a private "Master Bibliography" for definitive state-markers.
-2. **Perform Forensic Audits:** Compare physical observations against archival standards.
-3. **Capture Market Signals:** Pull recent "Hammer Prices" to contextualize risk.
-4. **Automate Governance:** Automatically update item statuses and maintain a permanent **Audit Log** in Notion for insurance and provenance.
-5. **Relational Provenance:** Automatically creates a "Two-Way Relation" between inventory items and forensic audit logs, maintaining a permanent chain of custody in Notion.
 
-## High-Value Use Case
-While many MCP servers focus on general productivity, this project addresses the specific, high-stakes requirements of **Asset Governance**. By automating the forensic audit trail, we eliminate human error in identifying 1st-state variants, protecting dealers from five-figure valuation mistakes.
+1.  **Sync with Ground Truth:** Query a private "Master Bibliography" for definitive state-markers.
+2.  **Perform Forensic Audits:** Compare physical observations against archival standards.
+3.  **Capture Market Signals:** Pull recent "Hammer Prices" to contextualize risk.
+4.  **Automate Governance:** Update item statuses and maintain a permanent **Audit Log** in Notion.
+5.  **Relational Provenance:** Automatically create "Two-Way Relations" between inventory and audit logs.
 
-## Why Notion?
-
-This project leverages Notion not just as a database, but as a relational engine. By linking Inventory, Bibliographic Standards, and Audit Logs, we create a 'Single Source of Truth' for asset provenance that is impossible to achieve with flat-file AI tools.
+> [!IMPORTANT]
+> **High-Value Use Case:** While many MCP servers focus on general productivity, this project addresses the specific, high-stakes requirements of **Asset Governance**. By automating the forensic audit trail, we eliminate human error in identifying 1st-state variants.
 
 ---
 
-## System Architecture
+## 🏛️ Why Notion?
+This project leverages Notion not just as a database, but as a **relational engine**. By linking Inventory, Bibliographic Standards, and Audit Logs, we create a **'Single Source of Truth'** for asset provenance that is impossible to achieve with flat-file AI tools.
+
+### System Architecture
 
 ```mermaid
 graph TD
@@ -62,6 +63,8 @@ Unlike standalone bots, this system utilizes a Relational Graph architecture. Ev
 | `update_book_status` | Direct write-back to Notion Inventory. | Real-time inventory governance. |
 | `create_audit_log` | Records timestamped audit results. | Chain of Custody & Provenance. |
 
+[!TIP]
+
 ## Forensic Logic & Limitations
 
 + **Matching Engine:** The audit_artifact_consistency tool utilizes a bidirectional substring matching algorithm. This provides flexibility for natural language observations while maintaining strict checks against archival "Points of Issue."
@@ -89,7 +92,10 @@ Unlike standalone bots, this system utilizes a Relational Graph architecture. Ev
 
 ### ✅ Quality Assurance
 This project includes a suite of unit tests built with Vitest to ensure the forensic logic remains sound even without a live Notion connection. Run them with:
+
+```bash
 npm test
+```
 
 ---
 
@@ -103,8 +109,8 @@ To see the relational logic in action, follow the guided test cases in [prompts.
 
 ---
 
-## ⚠️ Disclaimer: 
-Archival Intelligence is an MCP-based decision-support tool. Valuations are based on connected sample databases and historical auction results. Professional physical appraisal is always required for high-value asset transactions.
+> [!CAUTION]
+> Archival Intelligence is an MCP-based decision-support tool. Valuations are based on connected sample databases and historical auction results. Professional physical appraisal is always required for high-value asset transactions.
 
 ---
 

@@ -26,4 +26,4 @@ The underlying "Relational Audit" logic is industry-agnostic. Future "Expert Mod
 
 ## Phase 5: Production Hardening
 - **Stricter Tokenization:** Transition from substring matching to normalized structured tokens for bibliographic verification.
-- ** Confidence-by-Field:** Implementing weighted scoring where certain fields (like "Typographic Errors") carry more weight than others (like "Binding Color").
+- **Confidence-by-Field:** Implementing weighted scoring where certain fields (like "Typographic Errors") carry more weight than others (like "Binding Color").

@@ -77,7 +77,7 @@ export const ObservedArtifactSchema = z.object({
 
 export type ObservedArtifact = z.infer<typeof ObservedArtifactSchema>;
 
-export const AuditSeverity = z.enum(["Low", "Medium", "High"]);
+export const AuditSeverity = z.enum(["Low", "High"]);
 export type AuditSeverity = z.infer<typeof AuditSeverity>;
 
 export const AuditReportSchema = z.object({

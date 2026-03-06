@@ -193,7 +193,7 @@ export function extractRichText(prop: {
 }
 
 function extractMultiLineText(
-  prop: { rich_text?: { plain_text: string }[] }
+  prop: { rich_text?: Array<{ plain_text?: string; text?: { content?: string } }> }
 ): string[] {
   const text = extractRichText(prop);
   if (!text.trim()) return [];
@@ -215,7 +215,7 @@ function extractStringArray(prop: Record<string, unknown>): string[] {
   if (prop?.multi_select && Array.isArray(prop.multi_select)) {
     return extractMultiSelect(prop as { multi_select: { name: string }[] });
   }
-  return extractMultiLineText(prop as { rich_text?: { plain_text: string }[] });
+  return extractMultiLineText(prop as { rich_text?: Array<{ plain_text?: string; text?: { content?: string } }> });
 }
 
 /**
