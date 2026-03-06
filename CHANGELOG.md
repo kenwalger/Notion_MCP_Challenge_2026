@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.10.2] - 2025-03-04
+
+### Fixed
+
+- **containsMatch** – Remove `e.includes(o)` branch to prevent false-negatives: short or vague observed strings (e.g. "j") could previously match longer expected standards (e.g. "lowercase j on page 10"), silently suppressing High-severity discrepancies. Now uses one-directional matching only: observed must contain the full expected value.
+- **README** – Fix malformed `[!TIP]` callout: add blockquote prefix (`> [!TIP]`) so it renders as a styled alert on GitHub.
+- **Test file naming** – Rename `integration.test.ts` to `property-extraction.test.ts`; tests are unit tests for extraction helpers with no external dependencies.
+
+### Added
+
+- **Forensic test** – New test: vague observed value (e.g. "j") does NOT match expected "lowercase j on page 10"; ensures no false-negatives from short observed strings.
+
 ## [0.10.1] - 2025-03-04
 
 ### Fixed
@@ -19,7 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **Integration tests** – `src/__tests__/integration.test.ts` mocks Notion property objects and verifies `extractTitle` and `extractRichText` work correctly for both `title` and `rich_text` property types. Covers plain_text, text.content, multiple segments, and edge cases.
+- **Property extraction tests** – `src/__tests__/property-extraction.test.ts` mocks Notion property objects and verifies `extractTitle` and `extractRichText` work correctly for both `title` and `rich_text` property types. Covers plain_text, text.content, multiple segments, and edge cases.
 
 ### Changed
 

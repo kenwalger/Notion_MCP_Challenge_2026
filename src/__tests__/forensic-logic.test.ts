@@ -99,6 +99,25 @@ describe("audit_artifact_consistency", () => {
     expect(yearDiscrepancy?.severity).toBe("Low");
   });
 
+  it("flags High severity when observed value is too vague (prevents false-negative)", async () => {
+    const result = await executeAuditArtifactConsistency({
+      book_standard: baseBookStandard,
+      observed: {
+        first_edition_indicators_observed: ["1925 on title page", "Scribner seal on verso"],
+        points_of_issue_observed: ["j"],
+      },
+    });
+
+    expect(result.is_consistent).toBe(false);
+    const pointsDiscrepancies = result.discrepancies.filter((d) => d.field === "points_of_issue");
+    expect(pointsDiscrepancies.length).toBeGreaterThanOrEqual(1);
+    const vagueDiscrepancy = pointsDiscrepancies.find(
+      (d) => d.expected === "lowercase j on page 10" && d.observed === "j"
+    );
+    expect(vagueDiscrepancy).toBeDefined();
+    expect(vagueDiscrepancy?.severity).toBe("High");
+  });
+
   it("reduces confidence_score based on discrepancy count and severity", async () => {
     const result = await executeAuditArtifactConsistency({
       book_standard: baseBookStandard,

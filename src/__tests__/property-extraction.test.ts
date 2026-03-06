@@ -5,9 +5,9 @@ import {
 } from "../lib/notion.js";
 
 /**
- * Integration tests for Notion property extraction logic.
+ * Unit tests for Notion property extraction logic.
  * Verifies that title-type and rich_text-type properties are correctly parsed
- * per @notionhq/client response structures.
+ * per @notionhq/client response structures. No external dependencies.
  */
 describe("Notion property extraction", () => {
   describe("extractTitle", () => {

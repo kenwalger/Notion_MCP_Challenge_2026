@@ -32,14 +32,17 @@ function normalizeStrings(arr: string[]): string[] {
 }
 
 /**
- * Bidirectional substring matching for demo flexibility: a match occurs if expected
- * is contained in observed or vice versa. A production system would require
- * normalized tokens (e.g., tokenization, stemming) for stricter forensic accuracy.
+ * One-directional substring matching: a match occurs only when the observed value
+ * contains the full expected standard (o.includes(e)). We intentionally do NOT
+ * use e.includes(o), because a short or vague observed string (e.g. "j") would
+ * falsely match a longer expected standard (e.g. "lowercase j on page 10"),
+ * silently suppressing High-severity discrepancies. A production system would
+ * require normalized tokens (tokenization, stemming) for stricter forensic accuracy.
  */
 function containsMatch(expected: string, observedList: string[]): boolean {
   const e = expected.toLowerCase().trim();
   const normalized = normalizeStrings(observedList);
-  return normalized.some((o) => o.includes(e) || e.includes(o));
+  return normalized.some((o) => o.includes(e));
 }
 
 export async function executeAuditArtifactConsistency(

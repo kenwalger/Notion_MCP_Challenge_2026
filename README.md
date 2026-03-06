@@ -63,13 +63,11 @@ Unlike standalone bots, this system utilizes a Relational Graph architecture. Ev
 | `update_book_status` | Direct write-back to Notion Inventory. | Real-time inventory governance. |
 | `create_audit_log` | Records timestamped audit results. | Chain of Custody & Provenance. |
 
-[!TIP]
-
-## Forensic Logic & Limitations
-
-+ **Matching Engine:** The audit_artifact_consistency tool utilizes a bidirectional substring matching algorithm. This provides flexibility for natural language observations while maintaining strict checks against archival "Points of Issue."
-
-+ **Knowledge Boundary:** The system's "Expertise" is strictly bound to the Master Bibliography. If a title is not present in the reference database, the agent will correctly report a lack of ground-truth data rather than hallucinating.
+> [!TIP]
+> **Forensic Logic & Limitations**
+>
+> - **Matching Engine:** The audit_artifact_consistency tool uses one-directional substring matching: the observed value must contain the full expected standard. This prevents vague observed strings from falsely suppressing High-severity discrepancies.
+> - **Knowledge Boundary:** The system's expertise is strictly bound to the Master Bibliography. If a title is not present in the reference database, the agent will correctly report a lack of ground-truth data rather than hallucinating.
 
 
 ---
