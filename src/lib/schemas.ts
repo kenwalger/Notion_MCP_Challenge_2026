@@ -40,9 +40,9 @@ export type BookSearchParams = z.infer<typeof BookSearchParamsSchema>;
 // =============================================================================
 //
 // Severity hierarchy for audit_artifact_consistency:
-// - High: first_edition_indicators fail (wrong edition / reprint suspected)
-// - Medium: points_of_issue fail (later state of a true first edition)
-// - Low: other discrepancies (binding, paper, etc.)
+// - High: first_edition_indicators or points_of_issue fail (typo/state mismatch indicates forgery or wrong edition)
+// - Low: other discrepancies (binding, paper, year, etc.)
+// Points of Issue discrepancies receive HIGH severity with significant confidence deduction.
 //
 
 export const BookStandardSchema = z.object({

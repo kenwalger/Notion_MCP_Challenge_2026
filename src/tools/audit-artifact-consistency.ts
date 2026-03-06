@@ -31,6 +31,11 @@ function normalizeStrings(arr: string[]): string[] {
     .filter(Boolean);
 }
 
+/**
+ * Bidirectional substring matching for demo flexibility: a match occurs if expected
+ * is contained in observed or vice versa. A production system would require
+ * normalized tokens (e.g., tokenization, stemming) for stricter forensic accuracy.
+ */
 function containsMatch(expected: string, observedList: string[]): boolean {
   const e = expected.toLowerCase().trim();
   const normalized = normalizeStrings(observedList);
@@ -129,13 +134,14 @@ export async function executeAuditArtifactConsistency(
     }
   }
 
-  // Confidence: penalize by severity
+  // Confidence: penalize by severity. High (first_edition_indicators, points_of_issue)
+  // receives significant deduction; Low (year, binding, paper) receives minor deduction.
   const highCount = discrepancies.filter((d) => d.severity === "High").length;
   const medCount = discrepancies.filter((d) => d.severity === "Medium").length;
   const lowCount = discrepancies.filter((d) => d.severity === "Low").length;
   const confidenceScore = Math.max(
     0,
-    100 - highCount * 40 - medCount * 20 - lowCount * 5
+    100 - highCount * 45 - medCount * 20 - lowCount * 5
   );
 
   return {

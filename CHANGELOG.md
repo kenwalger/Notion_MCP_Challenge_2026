@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.10.0] - 2025-03-04
+
+### Added
+
+- **Integration tests** – `src/__tests__/integration.test.ts` mocks Notion property objects and verifies `extractTitle` and `extractRichText` work correctly for both `title` and `rich_text` property types.
+
+### Changed
+
+- **search_books** – When `query` is provided, it is now used as a Notion filter on the `Title` property using the `title` filter type (not `rich_text`).
+- **fetchBookStandard** – Notion `Title` properties are of type `title`, not `rich_text`. Added `extractTitle()` to pull `plain_text` from the `title` array; updated `extractRichText()` to support both `plain_text` and `text.content`.
+- **audit_artifact_consistency** – Standardized severity: Points of Issue discrepancies are HIGH with significant confidence deduction (45 points per High). Added comment explaining bidirectional substring matching is for demo flexibility; production would require normalized tokens.
+
+## [0.10.0] - 2025-03-04
+
+### Added
+
+- **Integration tests** – `src/__tests__/integration.test.ts` mocks Notion property objects and verifies `extractTitle` and `extractRichText` work correctly for both `title` and `rich_text` property types. Covers plain_text, text.content, multiple segments, and edge cases.
+
+### Changed
+
+- **search_books** – When `query` is provided, it is now used as a Notion filter on the `Title` property using the `title` filter type (not `rich_text`). Ensures text search correctly targets the database's primary title column.
+
+- **fetchBookStandard** – Fixed property extraction: Notion `Title` properties are type `title`, not `rich_text`. Added `extractTitle()` to pull `plain_text` from the `title` array. Updated `extractRichText()` to support both `plain_text` and `text.content`. Both helpers exported for testing.
+
+- **audit_artifact_consistency** – Standardized severity: Points of Issue discrepancies are HIGH severity with significant confidence deduction (45 points per High). Updated schema documentation to reflect Points of Issue = High. Added comment explaining bidirectional substring matching is for demo flexibility; production would require normalized tokens.
+
 ## [0.9.0] - 2025-03-04
 
 ### Added
