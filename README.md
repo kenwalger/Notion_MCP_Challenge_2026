@@ -76,7 +76,7 @@ Unlike standalone bots, this system utilizes a Relational Graph architecture. Ev
 
 1. **Clone & Install:**
    ```bash
-   git clone [https://github.com/kenwalger/Notion_MCP_Challenge_2026](https://github.com/kenwalger/Notion_MCP_Challenge_2026)
+   git clone https://github.com/kenwalger/Notion_MCP_Challenge_2026
    npm install
    npm run build
    ```
