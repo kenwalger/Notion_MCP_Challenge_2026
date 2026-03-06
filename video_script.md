@@ -1,5 +1,5 @@
 [ON-SET / CAMERA ON KEN]
-Hi, I'm Ken Alger from Abiqua Archive. We specialize in the high-stakes governance of rare assets. In the high-stakes world of rare books, a single typo or a capital letter can be a $150,000 mistake. Most collectors aren't forensic experts—but their Notion workspace should be. I've built the Rare Book Intelligence MCP to turn standard databases into a forensic lab that protects dealers from five-figure errors.
+Hi, I'm Ken Alger from Abiqua Archive. We specialize in the technical governance of rare assets. In the high-stakes world of rare books for example, a single typo or a capital letter can be a $150,000 mistake. Most collectors aren't forensic experts—but their Notion workspace should be. I've built the Rare Book Intelligence MCP to turn standard databases into a forensic lab that protects dealers from five-figure errors.
 [/ONSET]
 
 [SCREENCAST / NOTION & CLAUDE DESKTOP]
@@ -16,7 +16,9 @@ Back in Notion, we now have a clickable, relational link between our inventory a
 [/SCREENCAST]
 
 [ON-SET / CAMERA ON KEN]
-While we focused on rare books today, this framework is built for the entire $500 billion collectibles market. Whether it's verifying a 'T206' Honus Wagner baseball card, a 'Redline' Hot Wheels car, or a misprinted postage stamp, the logic remains the same: Cross-referencing private archival standards with live market data to automate trust. At Abiqua Archive, we’re building the future of provenance. Visit us at www.abiquaarchive.com to see how we're scaling this logic to the world of high-value collectibles.
+While we focused on rare books today, this framework is built for the entire $500 billion collectibles market. Whether it's verifying a 'T206' Honus Wagner baseball card, a 'Redline' Hot Wheels car, or a misprinted postage stamp, the logic remains the same: Cross-referencing private archival standards with live market data to automate trust. At Abiqua Archive, we’re building the future of provenance. Visit us at www.abiquaarchive.com to see how we're scaling this logic to the world of high-value collectibles and museum pieces.
+
+While we're using Claude as our interface today, this MCP server is a standalone engine. It can be integrated into dedicated web dashboards or automated 'headless' workflows, making it a flexible foundation for industrial-scale asset governance.
 
 By bridging structured archival data with autonomous AI actions, we’ve moved beyond simple notes into Archival Intelligence. This is the future of high-value asset governance, powered by Notion and the Model Context Protocol. Thanks for watching.
 [/ON-SET]

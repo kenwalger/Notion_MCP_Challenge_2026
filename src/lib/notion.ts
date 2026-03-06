@@ -93,6 +93,7 @@ export async function searchBooks(params: BookSearchParams) {
   const databaseId = getBooksDatabaseId();
 
   type PropertyFilter =
+    | { property: string; title: { contains: string } }
     | { property: string; rich_text: { contains: string } }
     | { property: string; select: { equals: string } }
     | { property: string; number: { greater_than_or_equal_to: number } }
@@ -100,6 +101,12 @@ export async function searchBooks(params: BookSearchParams) {
 
   const filter: PropertyFilter[] = [];
 
+  if (params.query) {
+    filter.push({
+      property: "Title",
+      title: { contains: params.query },
+    });
+  }
   if (params.author) {
     filter.push({
       property: "Author",
@@ -158,13 +165,35 @@ export function getMasterBibliographyDatabaseId(): string {
   return dbId;
 }
 
-function extractRichText(prop: { rich_text?: { plain_text: string }[] }): string {
+/**
+ * Extract plain text from a Notion 'title' property.
+ * Title properties use the title type (not rich_text); structure: { title: [{ plain_text?, text?: { content } }] }
+ */
+export function extractTitle(prop: {
+  title?: Array<{ plain_text?: string; text?: { content?: string } }>;
+}): string {
+  const items = prop?.title ?? [];
+  return items
+    .map((t) => t.plain_text ?? t.text?.content ?? "")
+    .join("")
+    .trim();
+}
+
+/**
+ * Extract plain text from a Notion 'rich_text' property.
+ */
+export function extractRichText(prop: {
+  rich_text?: Array<{ plain_text?: string; text?: { content?: string } }>;
+}): string {
   const texts = prop?.rich_text ?? [];
-  return texts.map((t) => t.plain_text).join("");
+  return texts
+    .map((t) => t.plain_text ?? t.text?.content ?? "")
+    .join("")
+    .trim();
 }
 
 function extractMultiLineText(
-  prop: { rich_text?: { plain_text: string }[] }
+  prop: { rich_text?: Array<{ plain_text?: string; text?: { content?: string } }> }
 ): string[] {
   const text = extractRichText(prop);
   if (!text.trim()) return [];
@@ -186,7 +215,7 @@ function extractStringArray(prop: Record<string, unknown>): string[] {
   if (prop?.multi_select && Array.isArray(prop.multi_select)) {
     return extractMultiSelect(prop as { multi_select: { name: string }[] });
   }
-  return extractMultiLineText(prop as { rich_text?: { plain_text: string }[] });
+  return extractMultiLineText(prop as { rich_text?: Array<{ plain_text?: string; text?: { content?: string } }> });
 }
 
 /**
@@ -205,9 +234,9 @@ export async function fetchBookStandard(pageId: string): Promise<BookStandard> {
   const props = "properties" in response ? response.properties : {};
   const raw = props as Record<string, unknown>;
 
-  const title = extractRichText((raw["Title"] ?? {}) as { rich_text?: { plain_text: string }[] });
-  const author = extractRichText((raw["Author"] ?? {}) as { rich_text?: { plain_text: string }[] });
-  const publisher = extractRichText((raw["Publisher"] ?? {}) as { rich_text?: { plain_text: string }[] });
+  const title = extractTitle((raw["Title"] ?? {}) as { title?: Array<{ plain_text?: string; text?: { content?: string } }> });
+  const author = extractRichText((raw["Author"] ?? {}) as { rich_text?: Array<{ plain_text?: string; text?: { content?: string } }> });
+  const publisher = extractRichText((raw["Publisher"] ?? {}) as { rich_text?: Array<{ plain_text?: string; text?: { content?: string } }> });
   const expectedYear = (raw["Expected First Edition Year"] as { number?: number })?.number ?? 0;
   const bindingType = ((raw["Binding Type"] as { select?: { name: string } })?.select?.name ?? "Cloth") as
     | "Leather"
@@ -216,7 +245,7 @@ export async function fetchBookStandard(pageId: string): Promise<BookStandard> {
     | "Vellum";
   const firstEditionIndicators = extractStringArray((raw["First Edition Indicators"] ?? {}) as Record<string, unknown>);
   const pointsOfIssue = extractStringArray((raw["Points of Issue"] ?? {}) as Record<string, unknown>);
-  const paperWatermark = extractRichText((raw["Paper Watermark"] ?? {}) as { rich_text?: { plain_text: string }[] });
+  const paperWatermark = extractRichText((raw["Paper Watermark"] ?? {}) as { rich_text?: Array<{ plain_text?: string; text?: { content?: string } }> });
 
   return {
     title: title || "Unknown",

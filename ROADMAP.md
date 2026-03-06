@@ -23,3 +23,7 @@ The underlying "Relational Audit" logic is industry-agnostic. Future "Expert Mod
 ## Phase 4: Enterprise Features
 - **Blockchain Provenance:** Optional "Minting" of an Audit Log to a permanent ledger for high-stakes insurance "Certificates of Authenticity."
 - **Multi-Tenant Support:** Enabling different dealers to share a "Common Ground Truth" database while maintaining private Inventory and Market data.
+
+## Phase 5: Production Hardening
+- **Stricter Tokenization:** Transition from substring matching to normalized structured tokens for bibliographic verification.
+- **Confidence-by-Field:** Implementing weighted scoring where certain fields (like "Typographic Errors") carry more weight than others (like "Binding Color").

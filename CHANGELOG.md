@@ -5,6 +5,42 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.10.2] - 2025-03-04
+
+### Fixed
+
+- **containsMatch** – Remove `e.includes(o)` branch to prevent false-negatives: short or vague observed strings (e.g. "j") could previously match longer expected standards (e.g. "lowercase j on page 10"), silently suppressing High-severity discrepancies. Now uses one-directional matching only: observed must contain the full expected value.
+- **README** – Fix malformed `[!TIP]` callout: add blockquote prefix (`> [!TIP]`) so it renders as a styled alert on GitHub.
+- **Test file naming** – Rename `integration.test.ts` to `property-extraction.test.ts`; tests are unit tests for extraction helpers with no external dependencies.
+
+### Added
+
+- **Forensic test** – New test: vague observed value (e.g. "j") does NOT match expected "lowercase j on page 10"; ensures no false-negatives from short observed strings.
+
+## [0.10.1] - 2025-03-04
+
+### Fixed
+
+- **extractMultiLineText** – Align parameter type with `extractRichText`: support `plain_text` and `text.content` fallback, optional fields. Resolves type mismatch in stricter compilation contexts.
+- **audit_artifact_consistency** – Remove dead `medCount` logic; no code path assigns Medium severity, so `- medCount * 20` was permanently zero.
+- **AuditSeverity** – Remove orphaned `Medium` from enum; audit tool only produces Low and High. Resolves schema/runtime inconsistency.
+- **CHANGELOG** – Remove duplicate [0.10.0] entry.
+- **ROADMAP** – Fix malformed bold syntax (`** Confidence-by-Field:**` → `**Confidence-by-Field:**`).
+
+## [0.10.0] - 2025-03-04
+
+### Added
+
+- **Property extraction tests** – `src/__tests__/property-extraction.test.ts` mocks Notion property objects and verifies `extractTitle` and `extractRichText` work correctly for both `title` and `rich_text` property types. Covers plain_text, text.content, multiple segments, and edge cases.
+
+### Changed
+
+- **search_books** – When `query` is provided, it is now used as a Notion filter on the `Title` property using the `title` filter type (not `rich_text`). Ensures text search correctly targets the database's primary title column.
+
+- **fetchBookStandard** – Fixed property extraction: Notion `Title` properties are type `title`, not `rich_text`. Added `extractTitle()` to pull `plain_text` from the `title` array. Updated `extractRichText()` to support both `plain_text` and `text.content`. Both helpers exported for testing.
+
+- **audit_artifact_consistency** – Standardized severity: Points of Issue discrepancies are HIGH severity with significant confidence deduction (45 points per High). Updated schema documentation to reflect Points of Issue = High. Added comment explaining bidirectional substring matching is for demo flexibility; production would require normalized tokens.
+
 ## [0.9.0] - 2025-03-04
 
 ### Added

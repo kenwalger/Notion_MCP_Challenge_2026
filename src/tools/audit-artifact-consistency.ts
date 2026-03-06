@@ -31,10 +31,18 @@ function normalizeStrings(arr: string[]): string[] {
     .filter(Boolean);
 }
 
+/**
+ * One-directional substring matching: a match occurs only when the observed value
+ * contains the full expected standard (o.includes(e)). We intentionally do NOT
+ * use e.includes(o), because a short or vague observed string (e.g. "j") would
+ * falsely match a longer expected standard (e.g. "lowercase j on page 10"),
+ * silently suppressing High-severity discrepancies. A production system would
+ * require normalized tokens (tokenization, stemming) for stricter forensic accuracy.
+ */
 function containsMatch(expected: string, observedList: string[]): boolean {
   const e = expected.toLowerCase().trim();
   const normalized = normalizeStrings(observedList);
-  return normalized.some((o) => o.includes(e) || e.includes(o));
+  return normalized.some((o) => o.includes(e));
 }
 
 export async function executeAuditArtifactConsistency(
@@ -129,13 +137,13 @@ export async function executeAuditArtifactConsistency(
     }
   }
 
-  // Confidence: penalize by severity
+  // Confidence: penalize by severity. High (first_edition_indicators, points_of_issue)
+  // receives significant deduction; Low (year, binding, paper) receives minor deduction.
   const highCount = discrepancies.filter((d) => d.severity === "High").length;
-  const medCount = discrepancies.filter((d) => d.severity === "Medium").length;
   const lowCount = discrepancies.filter((d) => d.severity === "Low").length;
   const confidenceScore = Math.max(
     0,
-    100 - highCount * 40 - medCount * 20 - lowCount * 5
+    100 - highCount * 45 - lowCount * 5
   );
 
   return {
