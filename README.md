@@ -66,7 +66,7 @@ Unlike standalone bots, this system utilizes a Relational Graph architecture. Ev
 > [!TIP]
 > **Forensic Logic & Limitations**
 >
-> - **Matching Engine:** The audit_artifact_consistency tool uses one-directional substring matching: the observed value must contain the full expected standard. This prevents vague observed strings from falsely suppressing High-severity discrepancies.
+> - **Matching Engine:** The `audit_artifact_consistency` tool uses one-directional substring matching: the observed value must contain the full expected standard. This prevents vague observed strings from falsely suppressing High-severity discrepancies.
 > - **Knowledge Boundary:** The system's expertise is strictly bound to the Master Bibliography. If a title is not present in the reference database, the agent will correctly report a lack of ground-truth data rather than hallucinating.
 
 
@@ -114,3 +114,5 @@ To see the relational logic in action, follow the guided test cases in [prompts.
 
 ⚖️ License
 Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
+
+Copyright (c) 2026 Ken W. Alger and the [Abiqua Archive](https://www.abiquaarchive.com).
